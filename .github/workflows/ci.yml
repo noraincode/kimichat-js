@@ -21,14 +21,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4.1.1
+    - name: Install pnpm
+      uses: pnpm/action-setup@v3.0.0
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4.0.2
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'pnpm'
-
-    - name: Install pnpm
-      uses: pnpm/action-setup@v3.0.0
 
     - name: Install dependencies
       run: pnpm install
