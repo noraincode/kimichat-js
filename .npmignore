@@ -1,10 +1,10 @@
-examples/
-node_modules/
+examples
+node_modules
 .github/
 .vscode/
-lib/
 .env
 pnpm-lock.yaml
 tsconfig.json
 .npmignore
 .gitignore
+jest.config.js
