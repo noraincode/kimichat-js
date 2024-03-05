@@ -2,6 +2,10 @@
   "name": "kimichat.js",
   "version": "0.1.0",
   "description": "A Kimi Chat nodejs sdk, unofficial version",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/noraincode/kimichat-js"
+  },
   "scripts": {
     "test": "jest --coverage",
     "build": "tsc"
