@@ -30,6 +30,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Build
+        run: pnpm build
+
       - name: Git configuration
         run: |
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -43,11 +46,6 @@ jobs:
           echo "RELEASE_TAG=latest" >> $GITHUB_ENV
         env:
           RELEASE_TYPE: ${{ github.event.inputs.release-type }}
-
-      - name: Debug
-        run: |
-          echo "NEW_VERSION: $NEW_VERSION"
-          echo "RELEASE_TAG: $RELEASE_TAG"
 
       # Update changelog unreleased section with new version
       - name: Update changelog

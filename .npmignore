@@ -1,0 +1,10 @@
+examples/
+node_modules/
+.github/
+.vscode/
+lib/
+.env
+pnpm-lock.yaml
+tsconfig.json
+.npmignore
+.gitignore
