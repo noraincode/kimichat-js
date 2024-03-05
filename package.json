@@ -1,0 +1,32 @@
+{
+  "name": "kimichat.js",
+  "version": "0.1.0",
+  "description": "A Kimi Chat nodejs sdk, unofficial version",
+  "scripts": {
+    "test": "jest --coverage",
+    "build": "tsc"
+  },
+  "keywords": [
+    "kimi",
+    "kimi chat",
+    "kimichat",
+    "moonshot",
+    "sdk"
+  ],
+  "author": "norain4u@yeah.net",
+  "license": "MIT",
+  "types": "dist/types.d.ts",
+  "main": "dist/index.js",
+  "dependencies": {
+    "form-data": "^4.0.0",
+    "typescript": "^5.3.3",
+    "undici": "^6.7.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.24",
+    "dotenv": "^16.4.5",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2"
+  }
+}
