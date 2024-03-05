@@ -1,5 +1,5 @@
 examples
-node_modules
+node_modules/*
 .github/
 .vscode/
 .env
@@ -8,3 +8,4 @@ tsconfig.json
 .npmignore
 .gitignore
 jest.config.js
+lib

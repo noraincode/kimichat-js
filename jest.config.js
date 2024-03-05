@@ -6,6 +6,5 @@ module.exports = {
     '.d.ts',
     'dist/',
     'lib/__tests__/clearFiles.ts',
-    'examples'
   ],
 };
