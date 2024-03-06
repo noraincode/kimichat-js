@@ -2,13 +2,13 @@ import { Dispatcher, request } from 'undici';
 import FormData from 'form-data';
 import fs from 'fs';
 
-import { BASE_URL, Model } from "./constants";
-import { ChatCompletion, ErrorResponse, FileContent, Message, ModelResource, KimiFile, DeletedFile, Tokens, KimiResponse } from "./types";
+import { BASE_URL } from "./constants";
+import { ChatCompletion, Model, FileContent, Message, ModelResource, KimiFile, DeletedFile, Tokens, KimiResponse, IKimiChat } from "./types";
 
 export * from './constants'
 export * from './types'
 
-export class KimiChat {
+export class KimiChat implements IKimiChat {
   private apiKey: string;
   private baseUrl = BASE_URL;
 

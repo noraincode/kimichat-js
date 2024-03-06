@@ -17,9 +17,25 @@
     "moonshot",
     "sdk"
   ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js",
+      "require": "./dist/index.js",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "README_EN.md",
+    "LICENSE"
+  ],
   "author": "norain4u@yeah.net",
   "license": "MIT",
-  "types": "dist/types.d.ts",
+  "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "dependencies": {
     "form-data": "^4.0.0",
@@ -32,5 +48,8 @@
     "dotenv": "^16.4.5",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.2"
+  },
+  "engines": {
+    "node": ">=16"
   }
 }

@@ -13,6 +13,8 @@ export type Permission = {
   is_blocking: boolean
 }
 
+export type Model = "moonshot-v1-8k" | "moonshot-v1-32k" | "moonshot-v1-128k"
+
 export type ModelResource = {
   created: number
   id: string
@@ -96,4 +98,25 @@ export interface ErrorResponse {
     message: string
     type: string
   }
+}
+
+export interface IKimiChat {
+  chatCompletions: (data: {
+    messages: Message[];
+    model?: Model;
+    maxTokens?: number;
+    temperature?: number;
+    topN?: number;
+    n?: number;
+    stream?: boolean;
+  }) => Promise<KimiResponse<ChatCompletion>>;
+  getModels: () => Promise<KimiResponse<ModelResource[]>>;
+  getFileContent: (id: string) => Promise<KimiResponse<FileContent>>;
+  deleteFile: (id: string) => Promise<KimiResponse<DeletedFile>>;
+  getFile: (id: string) => Promise<KimiResponse<KimiFile>>
+  uploadFile: (file: string) => Promise<KimiResponse<KimiFile>>
+  estimateTokens: (data: {
+    messages: Message[];
+    model?: Model;
+  }) => Promise<KimiResponse<Tokens[]>>
 }
