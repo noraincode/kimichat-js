@@ -1,3 +1,5 @@
+import { Dispatcher } from "undici"
+
 export type Permission = {
   created: number
   id: string
@@ -100,6 +102,24 @@ export interface ErrorResponse {
   }
 }
 
+export type StreamChoice = {
+  index: number
+  delta: {
+    role?: string
+    content?: string
+  }
+  finish_reason?: string
+  usage?: Usage
+}
+
+export type StreamChatCompletionData = {
+  id: string;
+  object: string;
+  created: number;
+  model: string;
+  choices: StreamChoice[];
+}
+
 export interface IKimiChat {
   chatCompletions: (data: {
     messages: Message[];
@@ -108,8 +128,16 @@ export interface IKimiChat {
     temperature?: number;
     topN?: number;
     n?: number;
-    stream?: boolean;
   }) => Promise<KimiResponse<ChatCompletion>>;
+  streamChatCompletions: (data: {
+    messages: Message[];
+    callback: Dispatcher.StreamFactory
+    model?: Model;
+    maxTokens?: number;
+    temperature?: number;
+    topN?: number;
+    n?: number;
+  }) => Promise<Dispatcher.StreamData>
   getModels: () => Promise<KimiResponse<ModelResource[]>>;
   getFileContent: (id: string) => Promise<KimiResponse<FileContent>>;
   deleteFile: (id: string) => Promise<KimiResponse<DeletedFile>>;

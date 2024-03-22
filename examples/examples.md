@@ -1,5 +1,6 @@
 ```typescript
 import { KimiChat } from "../lib";
+import { PassThrough } from "stream";
 
 const kimi = new KimiChat("Your API Key");
 
@@ -11,6 +12,34 @@ const { data: messages } = await kimi.chatCompletions({
       content: "Hello, how are you?",
     },
   ],
+});
+
+// Stream Chat Completion
+kimi.streamChatCompletions({
+  messages: [
+    {
+      role: "user",
+      content: "hello",
+    },
+  ],
+  callback: () => {
+    const bufs = [] as Buffer[];
+    const pt = new PassThrough()
+      .on("error", (err: any) => {
+        // @ts-ignore
+      })
+      .on("data", (buf: Buffer) => {
+        console.log(buf.toString());
+        // data: {"id":"cmpl-1305b94c570f447fbde3180560736287","object":"chat.completion.chunk","created":1698999575,"model":"moonshot-v1-8k","choices":[{"index":0,"delta":{"content":"你好"},"finish_reason":null}]}
+
+        bufs.push(buf);
+      })
+      .on("end", () => {
+        console.log(Buffer.concat(bufs).toString("utf8")).toBeTruthy();
+      });
+
+    return pt;
+  },
 });
 
 // Estimate Token

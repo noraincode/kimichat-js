@@ -3,6 +3,7 @@ dotenv.config()
 
 import fs from "fs"
 import { KimiChat } from "..";
+import { PassThrough } from "stream";
 
 const clearFiles = async () => {
   // @ts-ignore
@@ -23,6 +24,9 @@ describe('Test KimiChat SDK', () => {
     tmpDir = fs.mkdtempSync("/tmp/kimichat")
     tepFileName = `${tmpDir}/temp.md`
     fs.writeFileSync(tepFileName, "Hello kimi")
+
+    // @ts-ignore
+    kimi = new KimiChat(process.env.MOONSHOT_API_KEY)
   })
 
   afterAll(() => {
@@ -36,9 +40,6 @@ describe('Test KimiChat SDK', () => {
   })
 
   test("Constructor", () => {
-    // @ts-ignore
-    kimi = new KimiChat(process.env.MOONSHOT_API_KEY)
-
     expect(kimi).toBeInstanceOf(KimiChat)
   })
 
@@ -67,6 +68,31 @@ describe('Test KimiChat SDK', () => {
       id: expect.any(String),
       object: "chat.completion",
       created: expect.any(Number),
+    })
+  })
+
+  test("streamChatCompletions", async () => {
+    await kimi.streamChatCompletions({
+      messages:[{
+        role: "user",
+        content: "hello"
+      }],
+      callback: () => {
+        const bufs = [] as Buffer[]
+        const pt = new PassThrough()
+          .on('error', (err: any) => {
+            // @ts-ignore
+          })
+          .on('data', (buf: Buffer) => {
+            expect(buf).toBeTruthy()
+            bufs.push(buf)
+          })
+          .on('end', () => {
+            expect(Buffer.concat(bufs).toString('utf8')).toBeTruthy()
+          })
+
+        return pt
+      }
     })
   })
 

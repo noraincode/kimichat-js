@@ -29,8 +29,11 @@ pnpm i kimichat-js
 
 ## 使用方法
 
+> 请注意, 流式调用需要调用方传入自定义的回调方法, 用于处理数据流
+
 ```typescript
 import { KimiChat } from "kimichat-js";
+import { PassThrough } from "stream";
 
 const kimi = new KimiChat("Your API Key");
 
@@ -43,13 +46,52 @@ const { data: messages } = await kimi.chatCompletions({
     },
   ],
 });
+
+// Stream Chat Completion example
+kimi.streamChatCompletions({
+  messages: [
+    {
+      role: "user",
+      content: "hello",
+    },
+  ],
+  callback: () => {
+    const bufs = [] as Buffer[];
+    const pt = new PassThrough()
+      .on("error", (err: any) => {
+        // Handling error
+      })
+      .on("data", (buf: Buffer) => {
+        // Handling buf data
+        bufs.push(buf);
+      })
+      .on("end", () => {
+        // Handle buf data on end
+        Buffer.concat(bufs).toString("utf8");
+      });
+
+    return pt;
+  },
+});
+```
+
+对于 stream 格式返回数据格式如下, 类型引用 `StreamChatCompletionData`
+
+```json
+data: {"id":"cmpl-1305b94c570f447fbde3180560736287","object":"chat.completion.chunk","created":1698999575,"model":"moonshot-v1-8k","choices":[{"index":0,"delta":{"role":"assistant","content":""},"finish_reason":null}]}
+
+data: {"id":"cmpl-1305b94c570f447fbde3180560736287","object":"chat.completion.chunk","created":1698999575,"model":"moonshot-v1-8k","choices":[{"index":0,"delta":{"content":"你好"},"finish_reason":null}]}
+
+...
+
+data: {"id":"cmpl-1305b94c570f447fbde3180560736287","object":"chat.completion.chunk","created":1698999575,"model":"moonshot-v1-8k","choices":[{"index":0,"delta":{"content":"。"},"finish_reason":null}]}
+
+data: {"id":"cmpl-1305b94c570f447fbde3180560736287","object":"chat.completion.chunk","created":1698999575,"model":"moonshot-v1-8k","choices":[{"index":0,"delta":{},"finish_reason":"stop","usage":{"prompt_tokens":19,"completion_tokens":13,"total_tokens":32}}]}
+
+data: [DONE]
 ```
 
 > 更多方法请参考 examples
-
-## Todos
-
-[ ] Chat Completion 支持 stream 请求
 
 ## 引用
 

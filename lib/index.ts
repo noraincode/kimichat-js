@@ -1,6 +1,7 @@
-import { Dispatcher, request } from 'undici';
+import { Dispatcher, request, stream } from 'undici';
 import FormData from 'form-data';
 import fs from 'fs';
+const { PassThrough } = require('node:stream')
 
 import { BASE_URL } from "./constants";
 import { ChatCompletion, Model, FileContent, Message, ModelResource, KimiFile, DeletedFile, Tokens, KimiResponse, IKimiChat } from "./types";
@@ -43,7 +44,6 @@ export class KimiChat implements IKimiChat {
     temperature = 0.3,
     topN = 1.0,
     n = 1,
-    stream = false
   }: {
     messages: Message[]
     model?: Model
@@ -51,7 +51,6 @@ export class KimiChat implements IKimiChat {
     temperature?: number
     topN?: number
     n?: number
-    stream?: boolean
   }) {
     const res = await request(`${this.baseUrl}/chat/completions`, {
       method: "POST",
@@ -71,6 +70,41 @@ export class KimiChat implements IKimiChat {
     })
 
     return this.handleResponse<ChatCompletion>(res)
+  }
+
+  public async streamChatCompletions({
+    messages,
+    model = "moonshot-v1-8k",
+    maxTokens = 1024,
+    temperature = 0.3,
+    topN = 1.0,
+    n = 1,
+    callback
+  }: {
+    messages: Message[]
+    callback: Dispatcher.StreamFactory
+    model?: Model
+    maxTokens?: number
+    temperature?: number
+    topN?: number
+    n?: number
+  }) {
+    return stream(`${this.baseUrl}/chat/completions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${this.apiKey}`
+      },
+      body: JSON.stringify({
+        messages,
+        model,
+        max_tokens: maxTokens,
+        temperature,
+        top_p: topN,
+        n,
+        stream: true,
+      })
+    }, callback)
   }
 
   public async getFiles() {
