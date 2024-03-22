@@ -29,6 +29,8 @@ pnpm i kimichat-js
 
 ## Usage
 
+> Please note that streaming calls require the caller to pass in a custom callback method for processing the data stream.
+
 ```typescript
 import { KimiChat } from "kimichat-js";
 
@@ -43,6 +45,49 @@ const { data: messages } = await kimi.chatCompletions({
     },
   ],
 });
+
+// Stream Chat Completion example
+kimi.streamChatCompletions({
+  messages: [
+    {
+      role: "user",
+      content: "hello",
+    },
+  ],
+  callback: () => {
+    const bufs = [] as Buffer[];
+    const pt = new PassThrough()
+      .on("error", (err: any) => {
+        // Handling error
+      })
+      .on("data", (buf: Buffer) => {
+        // Handling buf data
+        bufs.push(buf);
+      })
+      .on("end", () => {
+        // Handle buf data on end
+        Buffer.concat(bufs).toString("utf8");
+      });
+
+    return pt;
+  },
+});
+```
+
+For stream format, the returned data format is as follows, the type reference is `StreamChatCompletionData`
+
+```json
+data: {"id":"cmpl-1305b94c570f447fbde3180560736287","object":"chat.completion.chunk","created":1698999575,"model":"moonshot-v1-8k","choices":[{"index":0,"delta":{"role":"assistant","content":""},"finish_reason":null}]}
+
+data: {"id":"cmpl-1305b94c570f447fbde3180560736287","object":"chat.completion.chunk","created":1698999575,"model":"moonshot-v1-8k","choices":[{"index":0,"delta":{"content":"你好"},"finish_reason":null}]}
+
+...
+
+data: {"id":"cmpl-1305b94c570f447fbde3180560736287","object":"chat.completion.chunk","created":1698999575,"model":"moonshot-v1-8k","choices":[{"index":0,"delta":{"content":"。"},"finish_reason":null}]}
+
+data: {"id":"cmpl-1305b94c570f447fbde3180560736287","object":"chat.completion.chunk","created":1698999575,"model":"moonshot-v1-8k","choices":[{"index":0,"delta":{},"finish_reason":"stop","usage":{"prompt_tokens":19,"completion_tokens":13,"total_tokens":32}}]}
+
+data: [DONE]
 ```
 
 For more methods, please refer to examples.
