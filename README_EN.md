@@ -92,10 +92,6 @@ data: [DONE]
 
 For more methods, please refer to examples.
 
-## Todos
-
-[ ] Support stream requests for Chat Completion.
-
 ## References
 
 [Kimi Chat Official API Documentation](https://platform.moonshot.cn/docs/api-reference#list-models)
