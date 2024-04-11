@@ -1,10 +1,10 @@
-# kimichat-js
+# kimichat.js
 
 [![CI](https://github.com/noraincode/kimichat-js/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/noraincode/kimichat-js/actions/workflows/ci.yml)
 
 [English Version](./README_EN.md)
 
-kimichat-js 是一个非官方的 Kimi Chat SDK，使用 TypeScript 和 undici 库开发
+kimichat.js 是一个非官方的 Kimi Chat SDK，使用 TypeScript 和 undici 库开发
 
 本项目旨在提供一个简单、高效的方式来接入和使用 [Kimi Chat](https://kimi.moonshot.cn/) 的官方 API
 
@@ -18,13 +18,13 @@ kimichat-js 是一个非官方的 Kimi Chat SDK，使用 TypeScript 和 undici �
 
 ```sh
 # 使用 npm 安装：
-npm install kimichat-js
+npm install kimichat.js
 
 # 使用 yarn 安装：
-yarn add kimichat-js
+yarn add kimichat.js
 
 # 使用 pnpm 安装
-pnpm i kimichat-js
+pnpm i kimichat.js
 ```
 
 ## 使用方法
@@ -32,7 +32,7 @@ pnpm i kimichat-js
 > 请注意, 流式调用需要调用方传入自定义的回调方法, 用于处理数据流
 
 ```typescript
-import { KimiChat } from "kimichat-js";
+import { KimiChat } from "kimichat.js";
 import { PassThrough } from "stream";
 
 const kimi = new KimiChat("Your API Key");
@@ -106,4 +106,4 @@ data: [DONE]
 
 ---
 
-欢迎贡献代码，一起完善 kimichat-js！
+欢迎贡献代码，一起完善 kimichat.js！

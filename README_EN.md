@@ -1,4 +1,4 @@
-# kimichat-js
+# kimichat.js
 
 [![CI](https://github.com/noraincode/kimichat-js/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/noraincode/kimichat-js/actions/workflows/ci.yml)
 
@@ -18,13 +18,13 @@ This project aims to provide a simple and efficient way to integrate and use the
 
 ```sh
 # Install using npm:
-npm install kimichat-js
+npm install kimichat.js
 
 # Install using yarn:
-yarn add kimichat-js
+yarn add kimichat.js
 
 # Install using pnpm
-pnpm i kimichat-js
+pnpm i kimichat.js
 ```
 
 ## Usage
@@ -32,7 +32,7 @@ pnpm i kimichat-js
 > Please note that streaming calls require the caller to pass in a custom callback method for processing the data stream.
 
 ```typescript
-import { KimiChat } from "kimichat-js";
+import { KimiChat } from "kimichat.js";
 
 const kimi = new KimiChat("Your API Key");
 
@@ -104,4 +104,4 @@ This project is an unofficial version and is not produced by Kimi Chat official.
 
 ---
 
-Contributions are welcome to improve kimichat-js!
+Contributions are welcome to improve kimichat.js!
